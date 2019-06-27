@@ -16,13 +16,14 @@ export class Tab2Page implements OnInit {
 
   categoria: any;
   articles: Article[] = [];
+
   @ViewChild(IonSegment) segment: IonSegment;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   constructor(private noticiasService: NoticiasService) {}
 
 categorias: string[] = [
-  'bussines',
+  'business',
   'entertainment',
   'general',
   'health',
@@ -31,17 +32,26 @@ categorias: string[] = [
   'technology'
   ];
 
-// al entrar en esa vista el valor por default sera en la posicion 0 bussines
+// el valor por default sera en la posicion 0 bussines
 ngOnInit() {
   this.segment.value = this.categorias[0];
+
+  this.noticiasService.getNoticiasPorCategoria(this.segment.value)
+  .subscribe(noticias => {
+    console.log(noticias);
+
+    this.articles.push(...noticias.articles);
+  });
 }
 
 onChange(event) {
-  this.categoria = event.detail.value;
-  this.noticiasService.getNoticiasPorCategoria(this.categoria)
+  this.articles.length = 0;
+  const categoria = event.detail.value;
+  this.noticiasService.getNoticiasPorCategoria(categoria)
   .subscribe(noticias => {
     console.log(noticias);
-    this.articles.unshift(...noticias.articles);
+
+    this.articles.push(...noticias.articles);
   });
 }
 
@@ -55,8 +65,6 @@ loadData(event) {
   });
     event.target.complete();
 
-    // App logic to determine if all data is loaded
-    // and disable the infinite scroll
     if (this.articles.length == 1000) {
       event.target.disabled = true;
     }
