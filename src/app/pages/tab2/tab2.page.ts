@@ -59,10 +59,11 @@ onChange(event) {
 loadData(event) {
   setTimeout(() => {
     console.log('Done');
-    this.numero += 1;
+    this.numero += 3;
     console.log(this.numero);
     this.noticiasService.getNoticiasPorCategoria1(this.categoria, this.numero)
   .subscribe(noticias => {
+    this.articles.length = 0;
     console.log(noticias);
     this.articles.push(...noticias.articles);
   });
