@@ -30,7 +30,11 @@ export class NoticiasService {
   }
 
   getNoticiasPorCategoria(categoria: string) {
-      return this.llamarAPI<RespuestaNoticias>(`/top-headlines?country=us&category=${categoria}`);
+      return this.llamarAPI<RespuestaNoticias>(`/top-headlines?country=us&category=${categoria}&pageSize=5`);
       }
+
+  getNoticiasPorCategoria1(categoria: string, numero: number) {
+        return this.llamarAPI<RespuestaNoticias>(`/top-headlines?country=us&category=${categoria}&pageSize=${numero}`);
+        }
 
 }

@@ -16,6 +16,7 @@ export class Tab2Page implements OnInit {
 
   categoria: any;
   articles: Article[] = [];
+  numero = 5;
 
   @ViewChild(IonSegment) segment: IonSegment;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -46,8 +47,8 @@ ngOnInit() {
 
 onChange(event) {
   this.articles.length = 0;
-  const categoria = event.detail.value;
-  this.noticiasService.getNoticiasPorCategoria(categoria)
+  this.categoria = event.detail.value;
+  this.noticiasService.getNoticiasPorCategoria(this.categoria)
   .subscribe(noticias => {
     console.log(noticias);
 
@@ -58,10 +59,12 @@ onChange(event) {
 loadData(event) {
   setTimeout(() => {
     console.log('Done');
-    this.noticiasService.getNoticiasPorCategoria(this.categoria)
+    this.numero += 1;
+    console.log(this.numero);
+    this.noticiasService.getNoticiasPorCategoria1(this.categoria, this.numero)
   .subscribe(noticias => {
     console.log(noticias);
-    this.articles.unshift(...noticias.articles);
+    this.articles.push(...noticias.articles);
   });
     event.target.complete();
 
